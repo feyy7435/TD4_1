@@ -7,30 +7,50 @@ using System.Threading.Tasks;
 using System;
 using TD4.Controllers;
 using TD4.Models.EntityFramework;
+using TD4.Models.Repository;
 
 [TestClass]
 public class UtilisateursControllerTests
 {
-    //private FilmRatingsDBContext _context;
-    //private UtilisateursController _controller;
+    private FilmRatingsDBContext _context;
+    private IDataRepository<Utilisateur> _dataRepository;
+    private UtilisateursController _controller;
 
-    //[TestInitialize]
-    //public void Setup()
-    //{
-    //    var options = new DbContextOptionsBuilder<FilmRatingsDBContext>()
-    //        //.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // Base unique par test
-    //        .Options;
+    [TestInitialize]
+    public void Setup()
+    {
+        var options = new DbContextOptionsBuilder<FilmRatingsDBContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-    //    _context = new FilmRatingsDBContext(options);
-    //    _controller = new UtilisateursController(_context);
+        _context = new FilmRatingsDBContext(options);
+        _dataRepository = new UtilisateurManager(_context);
+        _controller = new UtilisateursController(_dataRepository);
 
-    //    // Ajouter des utilisateurs pour les tests
-    //    _context.Utilisateurs.AddRange(
-    //        new Utilisateur { UtilisateurId = 1, Nom = "Dupont", Prenom = "Jean", Mail = "jean.dupont@gmail.com" },
-    //        new Utilisateur { UtilisateurId = 2, Nom = "Martin", Prenom = "Sophie", Mail = "sophie.martin@gmail.com" }
-    //    );
-    //    _context.SaveChanges();
-    //}
+        _context.Utilisateurs.Add(new Utilisateur { UtilisateurId = 1, Nom = "Test", Prenom = "User", Mail = "test@gmail.com" });
+        _context.SaveChanges();
+    }
+    [TestMethod]
+    public void GetUtilisateur_ValidId_ShouldReturnUser()
+    {
+        var result = _controller.GetUtilisateur(1).Result;
+        Assert.IsNotNull(result.Value);
+
+    }
+    [TestMethod]
+    public void PostUtilisateur_ShouldCreateUser()
+    {
+        Utilisateur newUser = new Utilisateur { Nom = "New", Prenom = "User", Mail = "new@gmail.com" };
+        _controller.PostUtilisateur(newUser);
+        Assert.IsNotNull(_context.Utilisateurs.FirstOrDefault(u => u.Mail == "new@gmail.com"));
+    }
+    [TestMethod]
+    public void DeleteUtilisateur_ValidId_ShouldDeleteUser()
+    {
+        _controller.DeleteUtilisateur(1);
+        Assert.IsNull(_context.Utilisateurs.Find(1));
+    }
+
 
     //[TestCleanup]
     //public void Cleanup()

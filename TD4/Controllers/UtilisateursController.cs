@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using TD4.Models.EntityFramework;
+using TD4.Models.Repository;
 
 namespace TD4.Controllers
 {
@@ -14,16 +15,23 @@ namespace TD4.Controllers
     [ApiController]
     public class UtilisateursController : ControllerBase
     {
-        private readonly UtilisateurManager utilisateurManager;
-        //private readonly FilmRatingsDBContext _context;
+        private readonly IDataRepository<Utilisateur> dataRepository;
+        //2   //private readonly UtilisateurManager utilisateurManager;
+        //1   //private readonly FilmRatingsDBContext _context;
 
         //public UtilisateursController(FilmRatingsDBContext context)
-        //{
+        //1  //{
         //    _context = context;
         //}
-        public UtilisateursController(UtilisateurManager userManager)
+        //public UtilisateursController(UtilisateurManager userManager)
+        //2     //{
+        //    utilisateurManager = userManager;
+        //}
+
+        //replacer tout les utilisateurManager par dataRepository
+        public UtilisateursController(IDataRepository<Utilisateur> dataRepo)
         {
-            utilisateurManager = userManager;
+            dataRepository = dataRepo;
         }
 
         // GET: api/Utilisateurs
@@ -31,7 +39,7 @@ namespace TD4.Controllers
         public async Task<ActionResult<IEnumerable<Utilisateur>>> GetUtilisateurs()
         {
             //return await _context.Utilisateurs.ToListAsync();
-            return utilisateurManager.GetAll();
+            return dataRepository.GetAll();
         }
 
         // GET: api/Utilisateurs/5
@@ -42,7 +50,7 @@ namespace TD4.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Utilisateur>> GetUtilisateur(int id)
         {
-            var utilisateur = utilisateurManager.GetById(id);
+            var utilisateur = dataRepository.GetById(id);
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
 
             if (utilisateur == null)
@@ -62,7 +70,7 @@ namespace TD4.Controllers
         public async Task<ActionResult<Utilisateur>> GetUtilisateurByEmail(string email)
 
         {
-            var utilisateur = utilisateurManager.GetByString(email);
+            var utilisateur = dataRepository.GetByString(email);
             //var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(e => e.Mail.ToUpper() == email.ToUpper());
             if (utilisateur == null)
             {
@@ -84,14 +92,14 @@ namespace TD4.Controllers
             {
                 return BadRequest();
             }
-            var userToUpdate = utilisateurManager.GetById(id);
+            var userToUpdate = dataRepository.GetById(id);
             if (userToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                utilisateurManager.Update(userToUpdate.Value, utilisateur);
+                dataRepository.Update(userToUpdate.Value, utilisateur);
                 return NoContent();
             }
         }
@@ -108,7 +116,7 @@ namespace TD4.Controllers
             {
                 return BadRequest(ModelState);
             }
-            utilisateurManager.Add(utilisateur);
+            dataRepository.Add(utilisateur);
             return CreatedAtAction("GetById", new { id = utilisateur.UtilisateurId }, utilisateur); // GetById : nom de l’action
         }
 
@@ -119,7 +127,7 @@ namespace TD4.Controllers
 
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
-            var utilisateur = utilisateurManager.GetById(id);
+            var utilisateur = dataRepository.GetById(id);
 
             //var utilisateur = await _context.Utilisateurs.FindAsync(id);
             if (utilisateur == null)
@@ -127,7 +135,7 @@ namespace TD4.Controllers
                 return NotFound();
             }
 
-            utilisateurManager.Delete(utilisateur.Value);
+            dataRepository.Delete(utilisateur.Value);
             // _context.Utilisateurs.Remove(utilisateur);
             //await _context.SaveChangesAsync();
 
