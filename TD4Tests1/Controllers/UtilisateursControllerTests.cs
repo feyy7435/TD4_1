@@ -158,6 +158,80 @@ public class UtilisateursControllerTests
         // Assert
         Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
     }
+
+    [TestMethod]
+    public void DeleteUtilisateurTest_AvecMoq()
+    {
+        // Arrange
+        var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+        var userController = new UtilisateursController(mockRepository.Object);
+        // Act
+        var actionResult = userController.DeleteUtilisateur(1).Result;
+        // Assert
+        Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+    }
+
+    [TestMethod]
+    public void DeleteUtilisateurTest_AvecMoq()
+    {
+        // Arrange
+        Utilisateur user = new Utilisateur
+        {
+            UtilisateurId = 1,
+            Nom = "Calida",
+            Prenom = "Lilley",
+            Mobile = "0653930778",
+            Mail = "clilleymd@last.fm",
+            Pwd = "Toto12345678!",
+            Rue = "Impasse des bergeronnettes",
+            CodePostal = "74200",
+            Ville = "Allinges",
+            Pays = "France",
+            Latitude = 46.344795F,
+            Longitude = 6.4885845F
+        };
+        var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+        mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(user);
+        var userController = new UtilisateursController(mockRepository.Object);
+        // Act
+        var actionResult = userController.DeleteUtilisateur(1).Result;
+        // Assert
+        Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+    }
+
+    [TestMethod]
+    public void DeleteUtilisateurTest_AvecMoq()
+    {
+        // Arrange
+        Utilisateur user = new Utilisateur
+        {
+            UtilisateurId = 1,
+            Nom = "Calida",
+            Prenom = "Lilley",
+            Mobile = "0653930778",
+            Mail = "clilleymd@last.fm",
+            Pwd = "Toto12345678!",
+            Rue = "Impasse des bergeronnettes",
+            CodePostal = "74200",
+            Ville = "Allinges",
+            Pays = "France",
+            Latitude = 46.344795F,
+            Longitude = 6.4885845F
+        };
+
+        var mockRepository = new Mock<IDataRepository<Utilisateur>>();
+        mockRepository.Setup(x => x.GetById(1)).Returns(user);
+
+        var userController = new UtilisateursController(mockRepository.Object);
+
+        // Act
+        var actionResult = userController.DeleteUtilisateur(1).Result;
+
+        // Assert
+        Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
+    }
+
+
     //[TestCleanup]
     //public void Cleanup()
     //{
