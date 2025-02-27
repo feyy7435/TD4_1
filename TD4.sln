@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TD4", "TD4\TD4.csproj", "{CCCAB232-1562-437B-8EE5-99A3D4D0A766}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TD4", "TD4\TD4.csproj", "{CCCAB232-1562-437B-8EE5-99A3D4D0A766}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TD4Tests1", "TD4Tests1\TD4Tests1.csproj", "{2A028DB8-596F-4913-8F12-108F8DB8D3F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CCCAB232-1562-437B-8EE5-99A3D4D0A766}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCCAB232-1562-437B-8EE5-99A3D4D0A766}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCCAB232-1562-437B-8EE5-99A3D4D0A766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A028DB8-596F-4913-8F12-108F8DB8D3F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A028DB8-596F-4913-8F12-108F8DB8D3F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A028DB8-596F-4913-8F12-108F8DB8D3F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A028DB8-596F-4913-8F12-108F8DB8D3F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
