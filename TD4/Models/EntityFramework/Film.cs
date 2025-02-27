@@ -31,7 +31,7 @@ namespace TD4.Models.EntityFramework
         public DateTime? DateSortie { get; set; }
 
         [Column("flm_duree", TypeName = "numeric(3, 0)")]
-        public decimal? Duree { get; set; }
+        public decimal? Duree { get; set; } 
 
         [Column("flm_genre")]
         [StringLength(30)]
